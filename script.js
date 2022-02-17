@@ -18,6 +18,7 @@ function dragElement(terrariumElement) {
         pos2 = 0,
         pos3 = 0,
         pos4 = 0;
+
     terrariumElement.onpointerdown = pointerDrag;
 
     function pointerDrag(e) {
@@ -38,18 +39,42 @@ function dragElement(terrariumElement) {
         terrariumElement.style.left = terrariumElement.offsetLeft - pos1 + 'px';
     }
 
-    function elementDrag(e) {
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        console.log(pos1, pos2, pos3, pos4);
-        terrariumElement.style.top = terrariumElement.offsetTop - pos2 + 'px';
-        terrariumElement.style.left = terrariumElement.offsetLeft - pos1 + 'px';
-    }
-
     function stopElementDrag() {
         document.onpointerup = null;
         document.onpointermove = null;
     }
 }
+
+/**
+ * 
+ * TODO: the implementation should be better for the top property, because always will move horitzontal from left to right (or viceversa) to where is found the element but not vertically. This is because the top element go into a collision with the bottom one and usually goes out of the frame of the terrarium.
+ */
+
+function getRandomValueLeftLeftContainer() {
+    return Math.random() * (970 - 240) + 240;
+}
+
+function getRandomValueLeftRightContainer() {
+    return Math.random() * (-890 - (-150)) + (-150);
+
+}
+
+const leftContainer = document.getElementById('left-container');
+const allPlantsLeftContainer = leftContainer.querySelectorAll('img');
+
+allPlantsLeftContainer.forEach((plant) => {
+    plant.addEventListener('dblclick', function (e) {
+        plant.style.top = '0px';
+        plant.style.left = `${getRandomValueLeftLeftContainer()}px`;
+    });
+})
+
+const rightContainer = document.getElementById('right-container');
+const allPlantsRightContainer = rightContainer.querySelectorAll('img');
+
+allPlantsRightContainer.forEach((plant) => {
+    plant.addEventListener('dblclick', function (e) {
+        plant.style.top = '0px';
+        plant.style.left = `${getRandomValueLeftRightContainer()}px`;
+    });
+})
